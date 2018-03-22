@@ -1,0 +1,156 @@
+© 2018 Aaron Sami Abassi
+Licensed under the Academic Free License version 3.0
+
+
+                        Relation Association Programming
+                         Programming Paradigm Rationale
+
+
+INTRODUCTION
+
+    This document was written in order to explain my rationale for proposing
+the Relation Association Programmign paradigm.  Herein I will convey the 
+psychological reasons I beleive it is important to distinguish between 
+procedural and relational association programming.  But before I begin 
+explaining the reasons for proposing this paradigm, I will summarize the 
+imperative, structured and procedural paradigms all upon which this proposed 
+paradigm is built.
+
+
+HISTORY
+
+    Imperative programming forms the base of the proposed paradigm.  Data state
+is stored in memory which allows the programmer a measure of control over the
+execution environment.  The latter is useful when writing software intended to 
+interact with the executing system, such as representation of memory or port 
+mapped input/output on systems which are imperative in their design as in most 
+modern electronic computer systems, including programmable processor based
+'smart' phones.
+    
+    Structured programming adds control flow constructs which reduce the
+complexity of interpreting program state when developing and maintaining 
+software.  Programs written outside of structured programming must be 
+meticulously analyzed in order to understand data set state to determine the 
+correct flow of execution through the software system.  Control flow constructs 
+ease the complexity of tracing the flow of execution by constricting the manners 
+in which the flow of execution may exit the constructs instead of allowing the 
+flow of execution to jump to arbitrary points in the program.
+
+    Procedural programming furthered structured programming by introducing
+stored procedures.  Prior to procedural programming, segments of code which
+might be invoked from other parts of the program would often interact with the 
+data environment in subtle ways which often produced unintended side effects.
+A programmer would have to carefully analyze each statement in the invoked code 
+segment in order to understand if the code segment would behave as intended if
+invoked elsewhere.
+
+
+CONTEXT
+
+    Managing programming activities involves quite a bit of psychology.  We have
+seen that some of the primary motivating factors for the advancement of software
+programming paradigms is to ease or marshal the analytical work required in 
+order to develop and maintain software systems.  It is indeed psychological 
+factors which lead me to propose the relational association programming 
+paradigm.  
+
+    In early 2001 I was involved in a project which made use of the Tcl 
+programming language.  There was a possibility that the client would use either 
+MySQL or PostgreSQL which both had client packages available in Tcl.  However 
+the interfaces for each Tcl package were quite different from one another and in
+order to make use of either one, the lead developer created a unifying database
+interface which took arguments and returned results in a common manner.  The 
+solution he developed involved either including the MySQL or PostgreSQL database 
+interface he wrote which would create procedures in the interpreter that the 
+rest of his source code would expect by a predefined set of procedure names.  I 
+noted at the time that virtual methods in object oriented programming would also
+have been useful if a base class declared virtual methods, however we were not 
+sure we would be able to compile and install binary packages on the target 
+system which had not yet been decided.  This observation in that context is what 
+lead me to create the ClassTCL object-oriented programming extension for Tcl, 
+which was written in pure script.  However there is a much simpler solution 
+which I would only realize when I began thinking about the importance of 
+function referencing in modern software systems.  Indeed, the Tcl programming 
+language supports rudimentary function referencing by naming the procedure in a 
+variable and dereferencing the variable as the command directive.  For instance 
+if I create a variable called 'ReadRows' and store the name of a procedure such
+as 'ReadMySQLRows', I can call the procedure using 
+'$ReadRows argument0 argument1 ...'.  This rudimentary function referencing has 
+the same effect as calling a stored procedure using a function pointer in the 
+C programming language.  By passing a set of functions by reference as a 
+parameter to a stored procedure, we delegate the implementation specifics (in 
+this case database access functionality) to the use case.  This generally makes
+source code more reusable in that the relationship is one to many instead of one
+to one with respect to use cases.
+
+    When I first proposed this paradigm, C++ had not yet made variable templates
+part of the specification standard.  When I analyzed C++ in terms of the 
+proposed paradigm, I noted how templates augmented the expressiveness of source 
+code.  Therefore I examined what occurred when developing templates primarily
+and found that prior to standardization of variable templates, initializing
+function reference tables had to be done where the template specifiers were
+known.  This problem was serious enough that I left C++ out of my originally
+released work since it was cumbersome to work with and did not offer much over
+the C programming language without the use of templates in the context of the
+proposed paradigm.  When variable templates became part of the standard, I
+immediately realized that the problem with developing templates primarily was
+now solved and began to release demonstrative source code in order to highlight
+building software through templates conformant to the paradigm.  However I also
+noticed that not many programmers were discussing this effect, even in the years
+after the C++ 2014 specification had been implemented by most major compiler
+vendors.  This once again is highlighting the psychological implications of
+paradigms.  When modelling software, we usually think in terms of a paradigm and
+not language features.  Rarely do C and C++ programming language authors think
+about solving a problem using a 'goto' statement since we are writing structured
+source code.  Likewise, we rarely think primarily about programming generally 
+using function reference tables since we think of such constructs as a language 
+feature and only resort to them in order to solve a programmatic situation
+where other solutions are undesirable, such as using flags to determine which
+procedure to call which can incur undesiable run-time overhead, which is 
+mitigated when we assign a function to a reference and simply invoke the
+function using the reference.
+
+
+CONCLUSION
+
+    Procedural programming is insufficient to fully describe modern programming 
+in that it fails to address two features of modern programming languages which 
+are indispensible.  The first is source code modularity which groups sets of 
+functions and information shared between those functions into associative scopes
+of reference, hence the 'association' in relational association programming.  In
+very large scale programming projects, this organizational feature leads to the 
+expectation that side effects are associatively related.  This means that either 
+the stateful external source of the side effect is found in the same associative
+scope of reference or by way of relation from another associative scope of 
+reference, where one association makes use of another association.  The second 
+feature is run-time determinate function referencing which is used very commonly 
+in systems programming, but which is also useful in general programming.  
+Developing software which makes use of function referencing is outside of the 
+scope of procedural programming, since not all procedural languages support 
+run-time determinate function referencing, though in certain cases, a state can 
+be evaluated before each call in order to emulate the same effect with run-time 
+overhead.  It is also very important to carefully note function references in 
+the software system since they are used to determine the actual control flow 
+when invoking a procedure by reference.
+
+    The the C programming language was named the top programming language by 
+the Intitute of Electrical and Electronics Engineers (IEEE) Spectrum magazine in
+2016.  I have read about systems programmers who have recently re-evaluated C++
+in terms of systems programming and stated that their perception of C++ as an 
+object-oriented programming language was the source of their aversion to the
+language as a whole.  Source code paradigms are clearly a very important factor 
+in our outlook on programming languages and our precepts regarding modelling 
+software.  It is with this in mind that I proposed extending procedural
+programming into relationally associative programming in order to form a clear
+and complete mental picture of what is arguably the most successful software 
+programming model in general programming, convening to imperative, structured
+and procedural programming with the added requirements of associative scopes of
+reference and run-time determinate function referencing which both exist outside
+of the scope of procedural programming's definition but are required in order
+to claim compliance with relational association programming.
+
+
+I can be reached at the following e-mail address in the context of this work:
+
+rap.paradigm@gmail.com
+
